@@ -93,7 +93,7 @@ _InitMain:
 ;PFmicroSensor.c,50 :: 		PORTE=0;
 	CLRF       PORTE+0
 ;PFmicroSensor.c,52 :: 		UART1_Init(19200);
-	MOVLW      25
+	MOVLW      12
 	MOVWF      SPBRG+0
 	BSF        TXSTA+0, 2
 	CALL       _UART1_Init+0
@@ -289,19 +289,16 @@ L_interrupt11:
 ;PFmicroSensor.c,98 :: 		TMR1L = 0;
 	CLRF       TMR1L+0
 ;PFmicroSensor.c,100 :: 		Delay_ms(100);
-	MOVLW      2
-	MOVWF      R11+0
-	MOVLW      4
+	MOVLW      130
 	MOVWF      R12+0
-	MOVLW      186
+	MOVLW      221
 	MOVWF      R13+0
 L_interrupt12:
 	DECFSZ     R13+0, 1
 	GOTO       L_interrupt12
 	DECFSZ     R12+0, 1
 	GOTO       L_interrupt12
-	DECFSZ     R11+0, 1
-	GOTO       L_interrupt12
+	NOP
 	NOP
 ;PFmicroSensor.c,101 :: 		return;
 	GOTO       L__interrupt32
@@ -509,28 +506,24 @@ L__main37:
 	BTFSC      PORTB+0, 1
 	GOTO       L_main21
 ;PFmicroSensor.c,147 :: 		delay_us(40);
-	MOVLW      26
+	MOVLW      13
 	MOVWF      R13+0
 L_main22:
 	DECFSZ     R13+0, 1
 	GOTO       L_main22
-	NOP
 ;PFmicroSensor.c,148 :: 		Trig= 0;
 	BCF        PORTA+0, 0
 ;PFmicroSensor.c,149 :: 		delay_us(2);
 	NOP
 	NOP
-	NOP
-	NOP
 ;PFmicroSensor.c,150 :: 		Trig = 1;
 	BSF        PORTA+0, 0
 ;PFmicroSensor.c,151 :: 		delay_us(10); // Send LOW-to-HIGH Pulse of 10us to Ultrasonic
-	MOVLW      6
+	MOVLW      3
 	MOVWF      R13+0
 L_main23:
 	DECFSZ     R13+0, 1
 	GOTO       L_main23
-	NOP
 ;PFmicroSensor.c,152 :: 		Trig= 0;
 	BCF        PORTA+0, 0
 ;PFmicroSensor.c,153 :: 		}
@@ -539,28 +532,24 @@ L_main21:
 	BTFSC      PORTB+0, 0
 	GOTO       L_main24
 ;PFmicroSensor.c,156 :: 		delay_us(40);
-	MOVLW      26
+	MOVLW      13
 	MOVWF      R13+0
 L_main25:
 	DECFSZ     R13+0, 1
 	GOTO       L_main25
-	NOP
 ;PFmicroSensor.c,157 :: 		Trig2= 0;
 	BCF        PORTA+0, 1
 ;PFmicroSensor.c,158 :: 		delay_us(2);
 	NOP
 	NOP
-	NOP
-	NOP
 ;PFmicroSensor.c,159 :: 		Trig2 = 1;
 	BSF        PORTA+0, 1
 ;PFmicroSensor.c,160 :: 		delay_us(10); // Send LOW-to-HIGH Pulse of 10us to Ultrasonic
-	MOVLW      6
+	MOVLW      3
 	MOVWF      R13+0
 L_main26:
 	DECFSZ     R13+0, 1
 	GOTO       L_main26
-	NOP
 ;PFmicroSensor.c,161 :: 		Trig2= 0;
 	BCF        PORTA+0, 1
 ;PFmicroSensor.c,162 :: 		}
