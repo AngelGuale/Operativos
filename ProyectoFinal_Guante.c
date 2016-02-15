@@ -40,7 +40,7 @@ void Tone3() {
 }
 
 void Melody() {           // Plays the melody "Yellow house"
-  Do_T(); Re_T(); Do_T();
+ Si_T(); La_T();
   }
 
 void InitMain() {
@@ -60,12 +60,12 @@ void InitMain() {
   PORTD=0;
 
 Sound_Init(&PORTE, 0);
-Sound_Play(880, 1000);             // Play sound at 880Hz for 1 second
+Sound_Play(880, 500);             // Play sound at 880Hz for 1 second
 
   PWM1_Init(900);                    // Initialize PWM1 module at 1KHz
   
   UART1_Init(19200);
-
+     /*
   // Turn on Timer 1 with 4x prescale as counter
 T1CON = 0b00100000;
 // Turn on PORTB and Global interrupt
@@ -75,6 +75,7 @@ INTCON.RBIE = 1;
 INTCON.RBIF = 0;
 // Configuration for Interrupt-On_Change for PORTB0
 IOCB.IOCB0 = 1;
+*/
 }
 
 void main() {
@@ -87,28 +88,36 @@ void main() {
   
   while (1) {                         // endless loop
 
-   
-           if (UART1_Data_Ready()) { // If data has been received
+            if (UART1_Data_Ready()) { // If data has been received
             i = UART1_Read();     // read it
-            
             //UART1_Write(i);       // and send it back
-           PORTD=i;
+            PORTD=i;
 
-           if(i<20){
-            //PORTD=i;
-             PORTD=i;
+           if(i<19){
+            // PORTD=i;
              PWM1_Set_Duty(200);
+             Delay_ms(500);
+             PWM1_Set_Duty(0);
+             }
+             else if(i<30 && i>19){
+               PWM1_Set_Duty(800);
              Melody();
              PWM1_Set_Duty(0);
 
-
+             
              }
             else {
-            PORTD=0xFF;
+            //PORTD=0xFF;
             PORTE.B0=0;
-             PWM1_Set_Duty(0);
+            PWM1_Set_Duty(0);
             }
-        }
+            
+            
+        }   else {
+            PORTE.B0=0;
+            //PWM1_Set_Duty(0);
+            }
+
 
 
 }

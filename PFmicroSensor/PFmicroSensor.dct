@@ -193,6 +193,8 @@ adon
 adon_bit
 adresh
 adresl
+alerta_sensor1
+alerta_sensor2
 ans0
 ans0_bit
 ans1
@@ -482,6 +484,7 @@ eccpas2_bit
 eccpase
 eccpase_bit
 echo
+echo2
 eeadr
 eeadrh
 eecon1
@@ -497,6 +500,7 @@ eepgd
 eepgd_bit
 eeprom_read
 eeprom_write
+enviamensaje
 equals_double
 exp
 expander_init
@@ -1443,6 +1447,7 @@ tp_press_detect
 tp_set_adc_threshold
 tp_set_calibration_consts
 trig
+trig2
 trisa
 trisa0
 trisa0_bit

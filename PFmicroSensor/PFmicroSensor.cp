@@ -6,8 +6,31 @@ unsigned int temp_res;
  float distance_cm ;
  unsigned int i;
  unsigned char mensaje;
- sbit Echo at PORTB.B0;
+ sbit Echo at PORTB.B1;
  sbit Trig at PORTA.B0;
+
+ sbit Echo2 at PORTB.B0;
+ sbit Trig2 at PORTA.B1;
+ unsigned char alerta_sensor1=0;
+ unsigned char alerta_sensor2=0;
+
+ void enviaMensaje(unsigned char s1, unsigned char s2){
+ if(s1==1 && s2==0){
+ mensaje=10;
+ UART1_Write(mensaje);
+ }
+ if(s2==1){
+ mensaje=20;
+ UART1_Write(mensaje);
+ }
+ if(s1==0 && s2==0){
+ mensaje=100;
+ UART1_Write(mensaje);
+
+ }
+
+
+ }
 
 void InitMain() {
  ANSEL = 0x00;
@@ -24,6 +47,8 @@ void InitMain() {
  PORTC = 0;
  TRISD=0;
  PORTD=0;
+ TRISE=0;
+ PORTE=0;
 
  UART1_Init(19200);
 
@@ -34,36 +59,76 @@ INTCON.PEIE = 1;
 INTCON.RBIE = 1;
 INTCON.RBIF = 0;
 
-IOCB.IOCB0 = 1;
+IOCB.IOCB1 = 1;
+
+INTCON.INTE = 1;
+INTCON.INTF = 0;
  }
 
 void interrupt()
 {
  T1CON.TMR1ON = 1;
-while(Echo == 1);
-T1CON.TMR1ON = 0;
-TMR = (unsigned int)TMR1H << 8;
-TMR = TMR + TMR1L;
+ INTCON.GIE = 0;
+
+ if(INTCON.INTF==0){
+ while(Echo == 1 );
+ T1CON.TMR1ON = 0;
+ TMR = (unsigned int)TMR1H << 8;
+ TMR = TMR + TMR1L;
  duration = (TMR/10) * 8;
  distance_cm = duration / 58 ;
  PORTD=distance_cm;
  if(distance_cm < 50 )
  {
 
- delay_ms(200);
- mensaje=10;
- UART1_Write(mensaje);
+
+ alerta_sensor1=1;
+ enviaMensaje(alerta_sensor1, alerta_sensor2);
 
  }
  else
  {
-
-
- mensaje=100;
- UART1_Write(mensaje);
+ alerta_sensor1=0;
+ enviaMensaje(alerta_sensor1, alerta_sensor2);
 
  }
 INTCON.RBIF = 0;
+
+INTCON.GIE = 1;
+ TMR1H = 0;
+ TMR1L = 0;
+
+Delay_ms(100);
+return;
+}else if(INTCON.INTF==1){
+ while(Echo2 == 1 );
+ T1CON.TMR1ON = 0;
+ TMR = (unsigned int)TMR1H << 8;
+ TMR = TMR + TMR1L;
+ duration = (TMR/10) * 8;
+ distance_cm = duration / 58 ;
+ PORTD=distance_cm;
+ if(distance_cm < 50 )
+ {
+ alerta_sensor2=1;
+ enviaMensaje(alerta_sensor1, alerta_sensor2);
+
+ }
+ else
+ {
+ alerta_sensor2=0;
+ enviaMensaje(alerta_sensor1, alerta_sensor2);
+
+
+ }
+ INTCON.INTF = 0;
+
+INTCON.GIE = 1;
+ TMR1H = 0;
+ TMR1L = 0;
+
+}
+
 
 }
 
@@ -76,6 +141,9 @@ void main() {
  while (1) {
  TMR1H = 0;
  TMR1L = 0;
+ PORTE.B0=alerta_sensor1;
+ PORTE.B1=alerta_sensor2;
+
  if (Echo==0) {
  delay_us(40);
  Trig= 0;
@@ -84,5 +152,15 @@ void main() {
  delay_us(10);
  Trig= 0;
  }
+
+ if (Echo2==0) {
+ delay_us(40);
+ Trig2= 0;
+ delay_us(2);
+ Trig2 = 1;
+ delay_us(10);
+ Trig2= 0;
+ }
+
  }
 }

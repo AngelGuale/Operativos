@@ -41,7 +41,7 @@ void Tone3() {
 }
 
 void Melody() {
- Do_T(); Re_T(); Do_T();
+ Si_T(); La_T();
  }
 
 void InitMain() {
@@ -61,21 +61,12 @@ void InitMain() {
  PORTD=0;
 
 Sound_Init(&PORTE, 0);
-Sound_Play(880, 1000);
+Sound_Play(880, 500);
 
  PWM1_Init(900);
 
  UART1_Init(19200);
-
-
-T1CON = 0b00100000;
-
-INTCON.GIE = 1;
-INTCON.PEIE = 1;
-INTCON.RBIE = 1;
-INTCON.RBIF = 0;
-
-IOCB.IOCB0 = 1;
+#line 79 "C:/Users/Usuario/Desktop/ProyectoFinal_Guante/ProyectoFinal_Guante.c"
 }
 
 void main() {
@@ -88,28 +79,36 @@ void main() {
 
  while (1) {
 
-
  if (UART1_Data_Ready()) {
  i = UART1_Read();
 
-
  PORTD=i;
 
- if(i<20){
+ if(i<19){
 
- PORTD=i;
  PWM1_Set_Duty(200);
+ Delay_ms(500);
+ PWM1_Set_Duty(0);
+ }
+ else if(i<30 && i>19){
+ PWM1_Set_Duty(800);
  Melody();
  PWM1_Set_Duty(0);
 
 
  }
  else {
- PORTD=0xFF;
+
  PORTE.B0=0;
  PWM1_Set_Duty(0);
  }
+
+
+ } else {
+ PORTE.B0=0;
+
  }
+
 
 
 }

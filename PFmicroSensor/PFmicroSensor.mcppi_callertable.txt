@@ -1,4 +1,6 @@
 main
+	__CC2DW
+		____DoICP
 	InitMain
 		UART1_Init
 interrupt
@@ -16,4 +18,5 @@ interrupt
 	Double2Byte
 		SETIOV3224
 	Compare_Double
-	UART1_Write
+	enviaMensaje
+		UART1_Write
