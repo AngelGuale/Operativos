@@ -225,11 +225,11 @@ _InitMain:
 ;ProyectoFinal_Guante.c,65 :: 		PWM1_Init(900);                    // Initialize PWM1 module at 1KHz
 	BSF        T2CON+0, 0
 	BSF        T2CON+0, 1
-	MOVLW      69
+	MOVLW      138
 	MOVWF      PR2+0
 	CALL       _PWM1_Init+0
 ;ProyectoFinal_Guante.c,67 :: 		UART1_Init(19200);
-	MOVLW      12
+	MOVLW      25
 	MOVWF      SPBRG+0
 	BSF        TXSTA+0, 2
 	CALL       _UART1_Init+0
@@ -275,11 +275,11 @@ L_main0:
 	MOVWF      FARG_PWM1_Set_Duty_new_duty+0
 	CALL       _PWM1_Set_Duty+0
 ;ProyectoFinal_Guante.c,99 :: 		Delay_ms(500);
-	MOVLW      3
+	MOVLW      6
 	MOVWF      R11+0
-	MOVLW      138
+	MOVLW      19
 	MOVWF      R12+0
-	MOVLW      85
+	MOVLW      173
 	MOVWF      R13+0
 L_main4:
 	DECFSZ     R13+0, 1
