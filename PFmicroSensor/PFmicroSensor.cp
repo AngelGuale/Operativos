@@ -78,7 +78,7 @@ void interrupt()
  duration = (TMR/10) * 8;
  distance_cm = duration / 58 ;
  PORTD=distance_cm;
- if(distance_cm < 50 )
+ if(distance_cm < 15 )
  {
 
 
@@ -108,7 +108,7 @@ return;
  duration = (TMR/10) * 8;
  distance_cm = duration / 58 ;
  PORTD=distance_cm;
- if(distance_cm < 50 )
+ if(distance_cm > 7 )
  {
  alerta_sensor2=1;
  enviaMensaje(alerta_sensor1, alerta_sensor2);

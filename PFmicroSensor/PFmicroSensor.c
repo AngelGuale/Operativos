@@ -77,7 +77,7 @@ void interrupt()
         duration = (TMR/10) * 8;
         distance_cm = duration / 58 ;
         PORTD=distance_cm;
-        if(distance_cm < 50 ) // If Ultrasonic sense less than 50cm
+        if(distance_cm < 15 ) // If Ultrasonic sense less than 50cm
                {
                         //   mensaje=10;
                         //     UART1_Write(mensaje);
@@ -107,7 +107,7 @@ return;
             duration = (TMR/10) * 8;
              distance_cm = duration / 58 ;
              PORTD=distance_cm;
-             if(distance_cm < 50 ) // If Ultrasonic sense less than 50cm
+             if(distance_cm > 7 ) // If Ultrasonic sense less than 50cm
                             {
                           alerta_sensor2=1;
                           enviaMensaje(alerta_sensor1, alerta_sensor2);

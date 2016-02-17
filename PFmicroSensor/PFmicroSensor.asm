@@ -234,14 +234,14 @@ L_interrupt9:
 	CALL       _Double2Byte+0
 	MOVF       R0+0, 0
 	MOVWF      PORTD+0
-;PFmicroSensor.c,80 :: 		if(distance_cm < 50 ) // If Ultrasonic sense less than 50cm
+;PFmicroSensor.c,80 :: 		if(distance_cm < 15 ) // If Ultrasonic sense less than 50cm
 	MOVLW      0
 	MOVWF      R4+0
 	MOVLW      0
 	MOVWF      R4+1
-	MOVLW      72
+	MOVLW      112
 	MOVWF      R4+2
-	MOVLW      132
+	MOVLW      130
 	MOVWF      R4+3
 	MOVF       FLOC__interrupt+0, 0
 	MOVWF      R0+0
@@ -407,22 +407,22 @@ L_interrupt16:
 	CALL       _Double2Byte+0
 	MOVF       R0+0, 0
 	MOVWF      PORTD+0
-;PFmicroSensor.c,110 :: 		if(distance_cm < 50 ) // If Ultrasonic sense less than 50cm
-	MOVLW      0
-	MOVWF      R4+0
-	MOVLW      0
-	MOVWF      R4+1
-	MOVLW      72
-	MOVWF      R4+2
-	MOVLW      132
-	MOVWF      R4+3
+;PFmicroSensor.c,110 :: 		if(distance_cm > 7 ) // If Ultrasonic sense less than 50cm
 	MOVF       FLOC__interrupt+0, 0
-	MOVWF      R0+0
+	MOVWF      R4+0
 	MOVF       FLOC__interrupt+1, 0
-	MOVWF      R0+1
+	MOVWF      R4+1
 	MOVF       FLOC__interrupt+2, 0
-	MOVWF      R0+2
+	MOVWF      R4+2
 	MOVF       FLOC__interrupt+3, 0
+	MOVWF      R4+3
+	MOVLW      0
+	MOVWF      R0+0
+	MOVLW      0
+	MOVWF      R0+1
+	MOVLW      96
+	MOVWF      R0+2
+	MOVLW      129
 	MOVWF      R0+3
 	CALL       _Compare_Double+0
 	MOVLW      1
