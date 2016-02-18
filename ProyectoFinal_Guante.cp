@@ -26,10 +26,10 @@ void Tone1() {
 } void Sol_T() {
  Sound_Play(392, 250);
 } void La_T() {
- Sound_Play(440, 250);
+ Sound_Play(440, 100);
 }
  void Si_T() {
- Sound_Play(494, 250);
+ Sound_Play(494, 100);
 }
 
 void Tone2() {
@@ -86,19 +86,22 @@ void main() {
 
  if(i<19){
 
- PWM1_Set_Duty(200);
- Delay_ms(500);
- PWM1_Set_Duty(0);
+
+
+ PORTC.B0=1;
+
  }
  else if(i<30 && i>19){
- PWM1_Set_Duty(800);
+
+ PORTC.B0=1;
  Melody();
- PWM1_Set_Duty(0);
+
 
 
  }
  else {
 
+ PORTC.B0=0;
  PORTE.B0=0;
  PWM1_Set_Duty(0);
  }

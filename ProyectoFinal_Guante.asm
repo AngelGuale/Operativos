@@ -101,14 +101,15 @@ L_end_Sol_T:
 
 _La_T:
 
-;ProyectoFinal_Guante.c,28 :: 		Sound_Play(440, 250);   // Frequency = 659Hz, duration = 250ms
+;ProyectoFinal_Guante.c,28 :: 		Sound_Play(440, 100);   // Frequency = 659Hz, duration = 250ms
 	MOVLW      184
 	MOVWF      FARG_Sound_Play_freq_in_hz+0
 	MOVLW      1
 	MOVWF      FARG_Sound_Play_freq_in_hz+1
-	MOVLW      250
+	MOVLW      100
 	MOVWF      FARG_Sound_Play_duration_ms+0
-	CLRF       FARG_Sound_Play_duration_ms+1
+	MOVLW      0
+	MOVWF      FARG_Sound_Play_duration_ms+1
 	CALL       _Sound_Play+0
 ;ProyectoFinal_Guante.c,29 :: 		}
 L_end_La_T:
@@ -118,14 +119,15 @@ L_end_La_T:
 _Si_T:
 
 ;ProyectoFinal_Guante.c,30 :: 		void Si_T() {
-;ProyectoFinal_Guante.c,31 :: 		Sound_Play(494, 250);   // Frequency = 659Hz, duration = 250ms
+;ProyectoFinal_Guante.c,31 :: 		Sound_Play(494, 100);   // Frequency = 659Hz, duration = 250ms
 	MOVLW      238
 	MOVWF      FARG_Sound_Play_freq_in_hz+0
 	MOVLW      1
 	MOVWF      FARG_Sound_Play_freq_in_hz+1
-	MOVLW      250
+	MOVLW      100
 	MOVWF      FARG_Sound_Play_duration_ms+0
-	CLRF       FARG_Sound_Play_duration_ms+1
+	MOVLW      0
+	MOVWF      FARG_Sound_Play_duration_ms+1
 	CALL       _Sound_Play+0
 ;ProyectoFinal_Guante.c,32 :: 		}
 L_end_Si_T:
@@ -270,72 +272,48 @@ L_main0:
 	SUBWF      R0+0, 0
 	BTFSC      STATUS+0, 0
 	GOTO       L_main3
-;ProyectoFinal_Guante.c,98 :: 		PWM1_Set_Duty(200);
-	MOVLW      200
-	MOVWF      FARG_PWM1_Set_Duty_new_duty+0
-	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,99 :: 		Delay_ms(500);
-	MOVLW      6
-	MOVWF      R11+0
-	MOVLW      19
-	MOVWF      R12+0
-	MOVLW      173
-	MOVWF      R13+0
-L_main4:
-	DECFSZ     R13+0, 1
+;ProyectoFinal_Guante.c,100 :: 		PORTC.B0=1;
+	BSF        PORTC+0, 0
+;ProyectoFinal_Guante.c,102 :: 		}
 	GOTO       L_main4
-	DECFSZ     R12+0, 1
-	GOTO       L_main4
-	DECFSZ     R11+0, 1
-	GOTO       L_main4
-	NOP
-	NOP
-;ProyectoFinal_Guante.c,100 :: 		PWM1_Set_Duty(0);
-	CLRF       FARG_PWM1_Set_Duty_new_duty+0
-	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,101 :: 		}
-	GOTO       L_main5
 L_main3:
-;ProyectoFinal_Guante.c,102 :: 		else if(i<30 && i>19){
+;ProyectoFinal_Guante.c,103 :: 		else if(i<30 && i>19){
 	MOVLW      30
 	SUBWF      _i+0, 0
 	BTFSC      STATUS+0, 0
-	GOTO       L_main8
+	GOTO       L_main7
 	MOVF       _i+0, 0
 	SUBLW      19
 	BTFSC      STATUS+0, 0
-	GOTO       L_main8
-L__main11:
-;ProyectoFinal_Guante.c,103 :: 		PWM1_Set_Duty(800);
-	MOVLW      32
-	MOVWF      FARG_PWM1_Set_Duty_new_duty+0
-	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,104 :: 		Melody();
+	GOTO       L_main7
+L__main10:
+;ProyectoFinal_Guante.c,105 :: 		PORTC.B0=1;
+	BSF        PORTC+0, 0
+;ProyectoFinal_Guante.c,106 :: 		Melody();
 	CALL       _Melody+0
-;ProyectoFinal_Guante.c,105 :: 		PWM1_Set_Duty(0);
+;ProyectoFinal_Guante.c,110 :: 		}
+	GOTO       L_main8
+L_main7:
+;ProyectoFinal_Guante.c,113 :: 		PORTC.B0=0;
+	BCF        PORTC+0, 0
+;ProyectoFinal_Guante.c,114 :: 		PORTE.B0=0;
+	BCF        PORTE+0, 0
+;ProyectoFinal_Guante.c,115 :: 		PWM1_Set_Duty(0);
 	CLRF       FARG_PWM1_Set_Duty_new_duty+0
 	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,108 :: 		}
-	GOTO       L_main9
+;ProyectoFinal_Guante.c,116 :: 		}
 L_main8:
-;ProyectoFinal_Guante.c,111 :: 		PORTE.B0=0;
-	BCF        PORTE+0, 0
-;ProyectoFinal_Guante.c,112 :: 		PWM1_Set_Duty(0);
-	CLRF       FARG_PWM1_Set_Duty_new_duty+0
-	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,113 :: 		}
-L_main9:
-L_main5:
-;ProyectoFinal_Guante.c,116 :: 		}   else {
-	GOTO       L_main10
+L_main4:
+;ProyectoFinal_Guante.c,119 :: 		}   else {
+	GOTO       L_main9
 L_main2:
-;ProyectoFinal_Guante.c,117 :: 		PORTE.B0=0;
+;ProyectoFinal_Guante.c,120 :: 		PORTE.B0=0;
 	BCF        PORTE+0, 0
-;ProyectoFinal_Guante.c,119 :: 		}
-L_main10:
-;ProyectoFinal_Guante.c,123 :: 		}
+;ProyectoFinal_Guante.c,122 :: 		}
+L_main9:
+;ProyectoFinal_Guante.c,126 :: 		}
 	GOTO       L_main0
-;ProyectoFinal_Guante.c,125 :: 		}
+;ProyectoFinal_Guante.c,128 :: 		}
 L_end_main:
 	GOTO       $+0
 ; end of _main

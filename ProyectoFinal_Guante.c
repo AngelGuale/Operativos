@@ -25,10 +25,10 @@ void Tone1() {
 } void Sol_T() {
   Sound_Play(392, 250);   // Frequency = 659Hz, duration = 250ms
 } void La_T() {
-  Sound_Play(440, 250);   // Frequency = 659Hz, duration = 250ms
+  Sound_Play(440, 100);   // Frequency = 659Hz, duration = 250ms
 }
  void Si_T() {
-  Sound_Play(494, 250);   // Frequency = 659Hz, duration = 250ms
+  Sound_Play(494, 100);   // Frequency = 659Hz, duration = 250ms
 }
 
 void Tone2() {
@@ -95,19 +95,22 @@ void main() {
 
            if(i<19){
             // PORTD=i;
-             PWM1_Set_Duty(200);
-             Delay_ms(500);
-             PWM1_Set_Duty(0);
+            // PWM1_Set_Duty(200);
+           //  Delay_ms(500);
+           PORTC.B0=1;
+             //PWM1_Set_Duty(0);
              }
              else if(i<30 && i>19){
-               PWM1_Set_Duty(800);
+              // PWM1_Set_Duty(800);
+                PORTC.B0=1;
              Melody();
-             PWM1_Set_Duty(0);
+            // PWM1_Set_Duty(0);
 
              
              }
             else {
             //PORTD=0xFF;
+             PORTC.B0=0;
             PORTE.B0=0;
             PWM1_Set_Duty(0);
             }

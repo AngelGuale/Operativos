@@ -98,7 +98,7 @@ INTCON.GIE = 1;
  TMR1H = 0;
  TMR1L = 0;
 
-Delay_ms(100);
+
 return;
 }else if(INTCON.INTF==1){
  while(Echo2 == 1 );
