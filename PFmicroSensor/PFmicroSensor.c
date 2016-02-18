@@ -74,7 +74,7 @@ void interrupt()
     T1CON.TMR1ON = 0;
     TMR = (unsigned int)TMR1H << 8;
     TMR = TMR + TMR1L; // Combine 2x counter byte into single integer
-        duration = (TMR/10) * 8;
+        duration = (TMR*2);
         distance_cm = duration / 58 ;
         PORTD=distance_cm;
         if(distance_cm < 15 ) // If Ultrasonic sense less than 50cm
@@ -104,7 +104,7 @@ return;
         T1CON.TMR1ON = 0;
         TMR = (unsigned int)TMR1H << 8;
         TMR = TMR + TMR1L; // Combine 2x counter byte into single integer
-            duration = (TMR/10) * 8;
+            duration = (TMR*2);
              distance_cm = duration / 58 ;
              PORTD=distance_cm;
              if(distance_cm > 7 ) // If Ultrasonic sense less than 50cm

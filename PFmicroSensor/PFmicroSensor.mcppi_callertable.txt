@@ -4,7 +4,6 @@ main
 	InitMain
 		UART1_Init
 interrupt
-	Div_16x16_U
 	Word2Double
 		NRM3232
 			RES032

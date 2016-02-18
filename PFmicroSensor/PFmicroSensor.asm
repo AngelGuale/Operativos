@@ -157,36 +157,24 @@ L_interrupt9:
 	MOVWF      _TMR+1
 ;PFmicroSensor.c,76 :: 		TMR = TMR + TMR1L; // Combine 2x counter byte into single integer
 	MOVF       TMR1L+0, 0
-	ADDWF      R0+0, 1
+	ADDWF      R0+0, 0
+	MOVWF      R3+0
+	MOVF       R0+1, 0
 	BTFSC      STATUS+0, 0
-	INCF       R0+1, 1
-	MOVF       R0+0, 0
+	ADDLW      1
+	MOVWF      R3+1
+	MOVF       R3+0, 0
 	MOVWF      _TMR+0
-	MOVF       R0+1, 0
+	MOVF       R3+1, 0
 	MOVWF      _TMR+1
-;PFmicroSensor.c,77 :: 		duration = (TMR/10) * 8;
-	MOVLW      10
-	MOVWF      R4+0
-	MOVLW      0
-	MOVWF      R4+1
-	CALL       _Div_16x16_U+0
-	MOVF       R0+0, 0
-	MOVWF      R4+0
-	MOVF       R0+1, 0
-	MOVWF      R4+1
-	RLF        R4+0, 1
-	RLF        R4+1, 1
-	BCF        R4+0, 0
-	RLF        R4+0, 1
-	RLF        R4+1, 1
-	BCF        R4+0, 0
-	RLF        R4+0, 1
-	RLF        R4+1, 1
-	BCF        R4+0, 0
-	MOVF       R4+0, 0
+;PFmicroSensor.c,77 :: 		duration = (TMR*2);
+	MOVF       R3+0, 0
 	MOVWF      R0+0
-	MOVF       R4+1, 0
+	MOVF       R3+1, 0
 	MOVWF      R0+1
+	RLF        R0+0, 1
+	RLF        R0+1, 1
+	BCF        R0+0, 0
 	CALL       _Word2Double+0
 	MOVF       R0+0, 0
 	MOVWF      _duration+0
@@ -315,36 +303,24 @@ L_interrupt15:
 	MOVWF      _TMR+1
 ;PFmicroSensor.c,106 :: 		TMR = TMR + TMR1L; // Combine 2x counter byte into single integer
 	MOVF       TMR1L+0, 0
-	ADDWF      R0+0, 1
+	ADDWF      R0+0, 0
+	MOVWF      R3+0
+	MOVF       R0+1, 0
 	BTFSC      STATUS+0, 0
-	INCF       R0+1, 1
-	MOVF       R0+0, 0
+	ADDLW      1
+	MOVWF      R3+1
+	MOVF       R3+0, 0
 	MOVWF      _TMR+0
-	MOVF       R0+1, 0
+	MOVF       R3+1, 0
 	MOVWF      _TMR+1
-;PFmicroSensor.c,107 :: 		duration = (TMR/10) * 8;
-	MOVLW      10
-	MOVWF      R4+0
-	MOVLW      0
-	MOVWF      R4+1
-	CALL       _Div_16x16_U+0
-	MOVF       R0+0, 0
-	MOVWF      R4+0
-	MOVF       R0+1, 0
-	MOVWF      R4+1
-	RLF        R4+0, 1
-	RLF        R4+1, 1
-	BCF        R4+0, 0
-	RLF        R4+0, 1
-	RLF        R4+1, 1
-	BCF        R4+0, 0
-	RLF        R4+0, 1
-	RLF        R4+1, 1
-	BCF        R4+0, 0
-	MOVF       R4+0, 0
+;PFmicroSensor.c,107 :: 		duration = (TMR*2);
+	MOVF       R3+0, 0
 	MOVWF      R0+0
-	MOVF       R4+1, 0
+	MOVF       R3+1, 0
 	MOVWF      R0+1
+	RLF        R0+0, 1
+	RLF        R0+1, 1
+	BCF        R0+0, 0
 	CALL       _Word2Double+0
 	MOVF       R0+0, 0
 	MOVWF      _duration+0

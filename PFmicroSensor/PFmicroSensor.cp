@@ -75,7 +75,7 @@ void interrupt()
  T1CON.TMR1ON = 0;
  TMR = (unsigned int)TMR1H << 8;
  TMR = TMR + TMR1L;
- duration = (TMR/10) * 8;
+ duration = (TMR*2);
  distance_cm = duration / 58 ;
  PORTD=distance_cm;
  if(distance_cm < 15 )
@@ -105,7 +105,7 @@ return;
  T1CON.TMR1ON = 0;
  TMR = (unsigned int)TMR1H << 8;
  TMR = TMR + TMR1L;
- duration = (TMR/10) * 8;
+ duration = (TMR*2);
  distance_cm = duration / 58 ;
  PORTD=distance_cm;
  if(distance_cm > 7 )
