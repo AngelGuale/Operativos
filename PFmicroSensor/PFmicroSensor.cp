@@ -7,10 +7,10 @@ unsigned int temp_res;
  unsigned int i;
  unsigned char mensaje;
  sbit Echo at PORTB.B1;
- sbit Trig at PORTA.B0;
+ sbit Trig at PORTA.B1;
 
  sbit Echo2 at PORTB.B0;
- sbit Trig2 at PORTA.B1;
+ sbit Trig2 at PORTA.B0;
  unsigned char alerta_sensor1=0;
  unsigned char alerta_sensor2=0;
 

@@ -477,14 +477,14 @@ L_main21:
 	GOTO       L_main21
 	NOP
 ;PFmicroSensor.c,148 :: 		Trig= 0;
-	BCF        PORTA+0, 0
+	BCF        PORTA+0, 1
 ;PFmicroSensor.c,149 :: 		delay_us(2);
 	NOP
 	NOP
 	NOP
 	NOP
 ;PFmicroSensor.c,150 :: 		Trig = 1;
-	BSF        PORTA+0, 0
+	BSF        PORTA+0, 1
 ;PFmicroSensor.c,151 :: 		delay_us(10); // Send LOW-to-HIGH Pulse of 10us to Ultrasonic
 	MOVLW      6
 	MOVWF      R13+0
@@ -493,7 +493,7 @@ L_main22:
 	GOTO       L_main22
 	NOP
 ;PFmicroSensor.c,152 :: 		Trig= 0;
-	BCF        PORTA+0, 0
+	BCF        PORTA+0, 1
 ;PFmicroSensor.c,153 :: 		}
 L_main20:
 ;PFmicroSensor.c,155 :: 		if (Echo2==0) {
@@ -507,14 +507,14 @@ L_main24:
 	GOTO       L_main24
 	NOP
 ;PFmicroSensor.c,157 :: 		Trig2= 0;
-	BCF        PORTA+0, 1
+	BCF        PORTA+0, 0
 ;PFmicroSensor.c,158 :: 		delay_us(2);
 	NOP
 	NOP
 	NOP
 	NOP
 ;PFmicroSensor.c,159 :: 		Trig2 = 1;
-	BSF        PORTA+0, 1
+	BSF        PORTA+0, 0
 ;PFmicroSensor.c,160 :: 		delay_us(10); // Send LOW-to-HIGH Pulse of 10us to Ultrasonic
 	MOVLW      6
 	MOVWF      R13+0
@@ -523,7 +523,7 @@ L_main25:
 	GOTO       L_main25
 	NOP
 ;PFmicroSensor.c,161 :: 		Trig2= 0;
-	BCF        PORTA+0, 1
+	BCF        PORTA+0, 0
 ;PFmicroSensor.c,162 :: 		}
 L_main23:
 ;PFmicroSensor.c,164 :: 		}

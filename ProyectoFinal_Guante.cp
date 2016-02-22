@@ -88,12 +88,12 @@ void main() {
 
 
 
- PORTC.B0=1;
+ PORTC.B2=1;
 
  }
  else if(i<30 && i>19){
 
- PORTC.B0=1;
+ PORTC.B2=1;
  Melody();
 
 
@@ -101,7 +101,7 @@ void main() {
  }
  else {
 
- PORTC.B0=0;
+ PORTC.B2=0;
  PORTE.B0=0;
  PWM1_Set_Duty(0);
  }

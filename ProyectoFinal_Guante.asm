@@ -272,8 +272,8 @@ L_main0:
 	SUBWF      R0+0, 0
 	BTFSC      STATUS+0, 0
 	GOTO       L_main3
-;ProyectoFinal_Guante.c,100 :: 		PORTC.B0=1;
-	BSF        PORTC+0, 0
+;ProyectoFinal_Guante.c,100 :: 		PORTC.B2=1;
+	BSF        PORTC+0, 2
 ;ProyectoFinal_Guante.c,102 :: 		}
 	GOTO       L_main4
 L_main3:
@@ -287,15 +287,15 @@ L_main3:
 	BTFSC      STATUS+0, 0
 	GOTO       L_main7
 L__main10:
-;ProyectoFinal_Guante.c,105 :: 		PORTC.B0=1;
-	BSF        PORTC+0, 0
+;ProyectoFinal_Guante.c,105 :: 		PORTC.B2=1;
+	BSF        PORTC+0, 2
 ;ProyectoFinal_Guante.c,106 :: 		Melody();
 	CALL       _Melody+0
 ;ProyectoFinal_Guante.c,110 :: 		}
 	GOTO       L_main8
 L_main7:
-;ProyectoFinal_Guante.c,113 :: 		PORTC.B0=0;
-	BCF        PORTC+0, 0
+;ProyectoFinal_Guante.c,113 :: 		PORTC.B2=0;
+	BCF        PORTC+0, 2
 ;ProyectoFinal_Guante.c,114 :: 		PORTE.B0=0;
 	BCF        PORTE+0, 0
 ;ProyectoFinal_Guante.c,115 :: 		PWM1_Set_Duty(0);

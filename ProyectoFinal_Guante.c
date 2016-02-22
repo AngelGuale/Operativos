@@ -97,12 +97,12 @@ void main() {
             // PORTD=i;
             // PWM1_Set_Duty(200);
            //  Delay_ms(500);
-           PORTC.B0=1;
+           PORTC.B2=1;
              //PWM1_Set_Duty(0);
              }
              else if(i<30 && i>19){
               // PWM1_Set_Duty(800);
-                PORTC.B0=1;
+                PORTC.B2=1;
              Melody();
             // PWM1_Set_Duty(0);
 
@@ -110,7 +110,7 @@ void main() {
              }
             else {
             //PORTD=0xFF;
-             PORTC.B0=0;
+             PORTC.B2=0;
             PORTE.B0=0;
             PWM1_Set_Duty(0);
             }
