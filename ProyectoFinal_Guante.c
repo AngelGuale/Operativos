@@ -77,11 +77,12 @@ IOCB.IOCB0 = 1;
 void main() {
   InitMain();
 
-  current_duty  = 128;                 // initial value for current_duty
+  current_duty  = 0;                 // initial value for current_duty
 
   while (1) {                         // endless loop
 
             if (UART1_Data_Ready()) { // If data has been received
+            current_duty=0;
             i = UART1_Read();     // read it
             //UART1_Write(i);       // and send it back
             PORTD=i;
@@ -95,22 +96,28 @@ void main() {
              }
              else if(i<30 && i>19){
               // PWM1_Set_Duty(800);
-                PORTC.B2=1;
              Melody();
+            PORTC.B2=1;
+
             // PWM1_Set_Duty(0);
 
              
              }
             else {
             //PORTD=0xFF;
-             PORTC.B2=0;
+            PORTC.B2=0;
             PORTE.B0=0;
-            PWM1_Set_Duty(0);
+            
             }
             
             
-        }   else {
+        }else {
+            
+            current_duty++;
+            if(current_duty>100){
+            PORTC.B2=0;
             PORTE.B0=0;
+            }
             //PWM1_Set_Duty(0);
             }
 

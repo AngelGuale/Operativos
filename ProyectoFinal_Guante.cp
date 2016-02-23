@@ -68,11 +68,12 @@ Sound_Play(880, 500);
 void main() {
  InitMain();
 
- current_duty = 128;
+ current_duty = 0;
 
  while (1) {
 
  if (UART1_Data_Ready()) {
+ current_duty=0;
  i = UART1_Read();
 
  PORTD=i;
@@ -86,8 +87,9 @@ void main() {
  }
  else if(i<30 && i>19){
 
- PORTC.B2=1;
  Melody();
+ PORTC.B2=1;
+
 
 
 
@@ -96,12 +98,17 @@ void main() {
 
  PORTC.B2=0;
  PORTE.B0=0;
- PWM1_Set_Duty(0);
+
  }
 
 
- } else {
+ }else {
+
+ current_duty++;
+ if(current_duty>100){
+ PORTC.B2=0;
  PORTE.B0=0;
+ }
 
  }
 

@@ -25,5 +25,3 @@ main
 				Div_32x32_U
 				Div_16x16_U
 				Delay_Cyc
-	PWM1_Set_Duty
-		Mul_16x16_U

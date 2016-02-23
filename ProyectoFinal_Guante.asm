@@ -235,9 +235,8 @@ _main:
 ;ProyectoFinal_Guante.c,77 :: 		void main() {
 ;ProyectoFinal_Guante.c,78 :: 		InitMain();
 	CALL       _InitMain+0
-;ProyectoFinal_Guante.c,80 :: 		current_duty  = 128;                 // initial value for current_duty
-	MOVLW      128
-	MOVWF      _current_duty+0
+;ProyectoFinal_Guante.c,80 :: 		current_duty  = 0;                 // initial value for current_duty
+	CLRF       _current_duty+0
 ;ProyectoFinal_Guante.c,82 :: 		while (1) {                         // endless loop
 L_main0:
 ;ProyectoFinal_Guante.c,84 :: 		if (UART1_Data_Ready()) { // If data has been received
@@ -245,24 +244,26 @@ L_main0:
 	MOVF       R0+0, 0
 	BTFSC      STATUS+0, 2
 	GOTO       L_main2
-;ProyectoFinal_Guante.c,85 :: 		i = UART1_Read();     // read it
+;ProyectoFinal_Guante.c,85 :: 		current_duty=0;
+	CLRF       _current_duty+0
+;ProyectoFinal_Guante.c,86 :: 		i = UART1_Read();     // read it
 	CALL       _UART1_Read+0
 	MOVF       R0+0, 0
 	MOVWF      _i+0
-;ProyectoFinal_Guante.c,87 :: 		PORTD=i;
+;ProyectoFinal_Guante.c,88 :: 		PORTD=i;
 	MOVF       R0+0, 0
 	MOVWF      PORTD+0
-;ProyectoFinal_Guante.c,89 :: 		if(i<19){
+;ProyectoFinal_Guante.c,90 :: 		if(i<19){
 	MOVLW      19
 	SUBWF      R0+0, 0
 	BTFSC      STATUS+0, 0
 	GOTO       L_main3
-;ProyectoFinal_Guante.c,93 :: 		PORTC.B2=1;
+;ProyectoFinal_Guante.c,94 :: 		PORTC.B2=1;
 	BSF        PORTC+0, 2
-;ProyectoFinal_Guante.c,95 :: 		}
+;ProyectoFinal_Guante.c,96 :: 		}
 	GOTO       L_main4
 L_main3:
-;ProyectoFinal_Guante.c,96 :: 		else if(i<30 && i>19){
+;ProyectoFinal_Guante.c,97 :: 		else if(i<30 && i>19){
 	MOVLW      30
 	SUBWF      _i+0, 0
 	BTFSC      STATUS+0, 0
@@ -271,34 +272,42 @@ L_main3:
 	SUBLW      19
 	BTFSC      STATUS+0, 0
 	GOTO       L_main7
-L__main10:
-;ProyectoFinal_Guante.c,98 :: 		PORTC.B2=1;
-	BSF        PORTC+0, 2
+L__main11:
 ;ProyectoFinal_Guante.c,99 :: 		Melody();
 	CALL       _Melody+0
-;ProyectoFinal_Guante.c,103 :: 		}
+;ProyectoFinal_Guante.c,100 :: 		PORTC.B2=1;
+	BSF        PORTC+0, 2
+;ProyectoFinal_Guante.c,105 :: 		}
 	GOTO       L_main8
 L_main7:
-;ProyectoFinal_Guante.c,106 :: 		PORTC.B2=0;
+;ProyectoFinal_Guante.c,108 :: 		PORTC.B2=0;
 	BCF        PORTC+0, 2
-;ProyectoFinal_Guante.c,107 :: 		PORTE.B0=0;
+;ProyectoFinal_Guante.c,109 :: 		PORTE.B0=0;
 	BCF        PORTE+0, 0
-;ProyectoFinal_Guante.c,108 :: 		PWM1_Set_Duty(0);
-	CLRF       FARG_PWM1_Set_Duty_new_duty+0
-	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,109 :: 		}
+;ProyectoFinal_Guante.c,111 :: 		}
 L_main8:
 L_main4:
-;ProyectoFinal_Guante.c,112 :: 		}   else {
+;ProyectoFinal_Guante.c,114 :: 		}else {
 	GOTO       L_main9
 L_main2:
-;ProyectoFinal_Guante.c,113 :: 		PORTE.B0=0;
+;ProyectoFinal_Guante.c,116 :: 		current_duty++;
+	INCF       _current_duty+0, 1
+;ProyectoFinal_Guante.c,117 :: 		if(current_duty>100){
+	MOVF       _current_duty+0, 0
+	SUBLW      100
+	BTFSC      STATUS+0, 0
+	GOTO       L_main10
+;ProyectoFinal_Guante.c,118 :: 		PORTC.B2=0;
+	BCF        PORTC+0, 2
+;ProyectoFinal_Guante.c,119 :: 		PORTE.B0=0;
 	BCF        PORTE+0, 0
-;ProyectoFinal_Guante.c,115 :: 		}
+;ProyectoFinal_Guante.c,120 :: 		}
+L_main10:
+;ProyectoFinal_Guante.c,122 :: 		}
 L_main9:
-;ProyectoFinal_Guante.c,119 :: 		}
+;ProyectoFinal_Guante.c,126 :: 		}
 	GOTO       L_main0
-;ProyectoFinal_Guante.c,121 :: 		}
+;ProyectoFinal_Guante.c,128 :: 		}
 L_end_main:
 	GOTO       $+0
 ; end of _main
