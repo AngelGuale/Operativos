@@ -6,10 +6,10 @@ unsigned int temp_res;
     unsigned int i;
     unsigned char mensaje;
     sbit Echo at PORTB.B1;
-     sbit Trig at PORTA.B1;
+     sbit Trig at PORTA.B0;
 
      sbit Echo2 at PORTB.B0;
-     sbit Trig2 at PORTA.B0;
+     sbit Trig2 at PORTA.B1;
     unsigned char alerta_sensor1=0;
     unsigned char alerta_sensor2=0;
 
@@ -96,8 +96,12 @@ INTCON.RBIF = 0;
 INTCON.GIE = 1;
  TMR1H = 0; // Clear Timer1
    TMR1L = 0;
+ 
+ INTCON.RBIE = 0;
+ INTCON.INTE = 1;
 
-//Delay_ms(100);
+
+
 return;
 }else if(INTCON.INTF==1){
               while(Echo2 == 1 );
@@ -125,6 +129,11 @@ return;
 INTCON.GIE = 1;
   TMR1H = 0; // Clear Timer1
    TMR1L = 0;
+
+
+   INTCON.RBIE =1;
+  INTCON.INTE = 0;
+
 
 }
 

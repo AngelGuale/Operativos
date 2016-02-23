@@ -276,21 +276,25 @@ L_interrupt11:
 	CLRF       TMR1H+0
 ;PFmicroSensor.c,98 :: 		TMR1L = 0;
 	CLRF       TMR1L+0
-;PFmicroSensor.c,101 :: 		return;
+;PFmicroSensor.c,100 :: 		INTCON.RBIE = 0;
+	BCF        INTCON+0, 3
+;PFmicroSensor.c,101 :: 		INTCON.INTE = 1;
+	BSF        INTCON+0, 4
+;PFmicroSensor.c,105 :: 		return;
 	GOTO       L__interrupt31
-;PFmicroSensor.c,102 :: 		}else if(INTCON.INTF==1){
+;PFmicroSensor.c,106 :: 		}else if(INTCON.INTF==1){
 L_interrupt7:
 	BTFSS      INTCON+0, 1
 	GOTO       L_interrupt13
-;PFmicroSensor.c,103 :: 		while(Echo2 == 1 );
+;PFmicroSensor.c,107 :: 		while(Echo2 == 1 );
 L_interrupt14:
 	BTFSS      PORTB+0, 0
 	GOTO       L_interrupt15
 	GOTO       L_interrupt14
 L_interrupt15:
-;PFmicroSensor.c,104 :: 		T1CON.TMR1ON = 0;
+;PFmicroSensor.c,108 :: 		T1CON.TMR1ON = 0;
 	BCF        T1CON+0, 0
-;PFmicroSensor.c,105 :: 		TMR = (unsigned int)TMR1H << 8;
+;PFmicroSensor.c,109 :: 		TMR = (unsigned int)TMR1H << 8;
 	MOVF       TMR1H+0, 0
 	MOVWF      R3+0
 	CLRF       R3+1
@@ -301,7 +305,7 @@ L_interrupt15:
 	MOVWF      _TMR+0
 	MOVF       R0+1, 0
 	MOVWF      _TMR+1
-;PFmicroSensor.c,106 :: 		TMR = TMR + TMR1L; // Combine 2x counter byte into single integer
+;PFmicroSensor.c,110 :: 		TMR = TMR + TMR1L; // Combine 2x counter byte into single integer
 	MOVF       TMR1L+0, 0
 	ADDWF      R0+0, 0
 	MOVWF      R3+0
@@ -313,7 +317,7 @@ L_interrupt15:
 	MOVWF      _TMR+0
 	MOVF       R3+1, 0
 	MOVWF      _TMR+1
-;PFmicroSensor.c,107 :: 		duration = (TMR*2);
+;PFmicroSensor.c,111 :: 		duration = (TMR*2);
 	MOVF       R3+0, 0
 	MOVWF      R0+0
 	MOVF       R3+1, 0
@@ -330,7 +334,7 @@ L_interrupt15:
 	MOVWF      _duration+2
 	MOVF       R0+3, 0
 	MOVWF      _duration+3
-;PFmicroSensor.c,108 :: 		distance_cm = duration / 58 ;
+;PFmicroSensor.c,112 :: 		distance_cm = duration / 58 ;
 	MOVLW      0
 	MOVWF      R4+0
 	MOVLW      0
@@ -356,7 +360,7 @@ L_interrupt15:
 	MOVWF      _distance_cm+2
 	MOVF       FLOC__interrupt+3, 0
 	MOVWF      _distance_cm+3
-;PFmicroSensor.c,109 :: 		PORTD=distance_cm;
+;PFmicroSensor.c,113 :: 		PORTD=distance_cm;
 	MOVF       FLOC__interrupt+0, 0
 	MOVWF      R0+0
 	MOVF       FLOC__interrupt+1, 0
@@ -368,7 +372,7 @@ L_interrupt15:
 	CALL       _Double2Byte+0
 	MOVF       R0+0, 0
 	MOVWF      PORTD+0
-;PFmicroSensor.c,110 :: 		if(distance_cm > 7 ) // If Ultrasonic sense less than 50cm
+;PFmicroSensor.c,114 :: 		if(distance_cm > 7 ) // If Ultrasonic sense less than 50cm
 	MOVF       FLOC__interrupt+0, 0
 	MOVWF      R4+0
 	MOVF       FLOC__interrupt+1, 0
@@ -393,38 +397,42 @@ L_interrupt15:
 	MOVF       R0+0, 0
 	BTFSC      STATUS+0, 2
 	GOTO       L_interrupt16
-;PFmicroSensor.c,112 :: 		alerta_sensor2=1;
+;PFmicroSensor.c,116 :: 		alerta_sensor2=1;
 	MOVLW      1
 	MOVWF      _alerta_sensor2+0
-;PFmicroSensor.c,113 :: 		enviaMensaje(alerta_sensor1, alerta_sensor2);
+;PFmicroSensor.c,117 :: 		enviaMensaje(alerta_sensor1, alerta_sensor2);
 	MOVF       _alerta_sensor1+0, 0
 	MOVWF      FARG_enviaMensaje_s1+0
 	MOVLW      1
 	MOVWF      FARG_enviaMensaje_s2+0
 	CALL       _enviaMensaje+0
-;PFmicroSensor.c,115 :: 		}
+;PFmicroSensor.c,119 :: 		}
 	GOTO       L_interrupt17
 L_interrupt16:
-;PFmicroSensor.c,118 :: 		alerta_sensor2=0;
+;PFmicroSensor.c,122 :: 		alerta_sensor2=0;
 	CLRF       _alerta_sensor2+0
-;PFmicroSensor.c,119 :: 		enviaMensaje(alerta_sensor1, alerta_sensor2);
+;PFmicroSensor.c,123 :: 		enviaMensaje(alerta_sensor1, alerta_sensor2);
 	MOVF       _alerta_sensor1+0, 0
 	MOVWF      FARG_enviaMensaje_s1+0
 	CLRF       FARG_enviaMensaje_s2+0
 	CALL       _enviaMensaje+0
-;PFmicroSensor.c,122 :: 		}
+;PFmicroSensor.c,126 :: 		}
 L_interrupt17:
-;PFmicroSensor.c,123 :: 		INTCON.INTF = 0;
+;PFmicroSensor.c,127 :: 		INTCON.INTF = 0;
 	BCF        INTCON+0, 1
-;PFmicroSensor.c,125 :: 		INTCON.GIE = 1;
+;PFmicroSensor.c,129 :: 		INTCON.GIE = 1;
 	BSF        INTCON+0, 7
-;PFmicroSensor.c,126 :: 		TMR1H = 0; // Clear Timer1
+;PFmicroSensor.c,130 :: 		TMR1H = 0; // Clear Timer1
 	CLRF       TMR1H+0
-;PFmicroSensor.c,127 :: 		TMR1L = 0;
+;PFmicroSensor.c,131 :: 		TMR1L = 0;
 	CLRF       TMR1L+0
-;PFmicroSensor.c,129 :: 		}
+;PFmicroSensor.c,134 :: 		INTCON.RBIE =1;
+	BSF        INTCON+0, 3
+;PFmicroSensor.c,135 :: 		INTCON.INTE = 0;
+	BCF        INTCON+0, 4
+;PFmicroSensor.c,138 :: 		}
 L_interrupt13:
-;PFmicroSensor.c,132 :: 		}
+;PFmicroSensor.c,141 :: 		}
 L_end_interrupt:
 L__interrupt31:
 	MOVF       ___savePCLATH+0, 0
@@ -438,19 +446,19 @@ L__interrupt31:
 
 _main:
 
-;PFmicroSensor.c,134 :: 		void main() {
-;PFmicroSensor.c,135 :: 		InitMain();
+;PFmicroSensor.c,143 :: 		void main() {
+;PFmicroSensor.c,144 :: 		InitMain();
 	CALL       _InitMain+0
-;PFmicroSensor.c,137 :: 		current_duty  = 128;                 // initial value for current_duty
+;PFmicroSensor.c,146 :: 		current_duty  = 128;                 // initial value for current_duty
 	MOVLW      128
 	MOVWF      _current_duty+0
-;PFmicroSensor.c,140 :: 		while (1) {                         // endless loop
+;PFmicroSensor.c,149 :: 		while (1) {                         // endless loop
 L_main18:
-;PFmicroSensor.c,141 :: 		TMR1H = 0; // Clear Timer1
+;PFmicroSensor.c,150 :: 		TMR1H = 0; // Clear Timer1
 	CLRF       TMR1H+0
-;PFmicroSensor.c,142 :: 		TMR1L = 0;
+;PFmicroSensor.c,151 :: 		TMR1L = 0;
 	CLRF       TMR1L+0
-;PFmicroSensor.c,143 :: 		PORTE.B0=alerta_sensor1;
+;PFmicroSensor.c,152 :: 		PORTE.B0=alerta_sensor1;
 	BTFSC      _alerta_sensor1+0, 0
 	GOTO       L__main33
 	BCF        PORTE+0, 0
@@ -458,7 +466,7 @@ L_main18:
 L__main33:
 	BSF        PORTE+0, 0
 L__main34:
-;PFmicroSensor.c,144 :: 		PORTE.B1=alerta_sensor2;
+;PFmicroSensor.c,153 :: 		PORTE.B1=alerta_sensor2;
 	BTFSC      _alerta_sensor2+0, 0
 	GOTO       L__main35
 	BCF        PORTE+0, 1
@@ -466,69 +474,69 @@ L__main34:
 L__main35:
 	BSF        PORTE+0, 1
 L__main36:
-;PFmicroSensor.c,146 :: 		if (Echo==0) {
+;PFmicroSensor.c,155 :: 		if (Echo==0) {
 	BTFSC      PORTB+0, 1
 	GOTO       L_main20
-;PFmicroSensor.c,147 :: 		delay_us(40);
+;PFmicroSensor.c,156 :: 		delay_us(40);
 	MOVLW      26
 	MOVWF      R13+0
 L_main21:
 	DECFSZ     R13+0, 1
 	GOTO       L_main21
 	NOP
-;PFmicroSensor.c,148 :: 		Trig= 0;
-	BCF        PORTA+0, 1
-;PFmicroSensor.c,149 :: 		delay_us(2);
-	NOP
-	NOP
-	NOP
-	NOP
-;PFmicroSensor.c,150 :: 		Trig = 1;
-	BSF        PORTA+0, 1
-;PFmicroSensor.c,151 :: 		delay_us(10); // Send LOW-to-HIGH Pulse of 10us to Ultrasonic
-	MOVLW      6
-	MOVWF      R13+0
-L_main22:
-	DECFSZ     R13+0, 1
-	GOTO       L_main22
-	NOP
-;PFmicroSensor.c,152 :: 		Trig= 0;
-	BCF        PORTA+0, 1
-;PFmicroSensor.c,153 :: 		}
-L_main20:
-;PFmicroSensor.c,155 :: 		if (Echo2==0) {
-	BTFSC      PORTB+0, 0
-	GOTO       L_main23
-;PFmicroSensor.c,156 :: 		delay_us(40);
-	MOVLW      26
-	MOVWF      R13+0
-L_main24:
-	DECFSZ     R13+0, 1
-	GOTO       L_main24
-	NOP
-;PFmicroSensor.c,157 :: 		Trig2= 0;
+;PFmicroSensor.c,157 :: 		Trig= 0;
 	BCF        PORTA+0, 0
 ;PFmicroSensor.c,158 :: 		delay_us(2);
 	NOP
 	NOP
 	NOP
 	NOP
-;PFmicroSensor.c,159 :: 		Trig2 = 1;
+;PFmicroSensor.c,159 :: 		Trig = 1;
 	BSF        PORTA+0, 0
 ;PFmicroSensor.c,160 :: 		delay_us(10); // Send LOW-to-HIGH Pulse of 10us to Ultrasonic
+	MOVLW      6
+	MOVWF      R13+0
+L_main22:
+	DECFSZ     R13+0, 1
+	GOTO       L_main22
+	NOP
+;PFmicroSensor.c,161 :: 		Trig= 0;
+	BCF        PORTA+0, 0
+;PFmicroSensor.c,162 :: 		}
+L_main20:
+;PFmicroSensor.c,164 :: 		if (Echo2==0) {
+	BTFSC      PORTB+0, 0
+	GOTO       L_main23
+;PFmicroSensor.c,165 :: 		delay_us(40);
+	MOVLW      26
+	MOVWF      R13+0
+L_main24:
+	DECFSZ     R13+0, 1
+	GOTO       L_main24
+	NOP
+;PFmicroSensor.c,166 :: 		Trig2= 0;
+	BCF        PORTA+0, 1
+;PFmicroSensor.c,167 :: 		delay_us(2);
+	NOP
+	NOP
+	NOP
+	NOP
+;PFmicroSensor.c,168 :: 		Trig2 = 1;
+	BSF        PORTA+0, 1
+;PFmicroSensor.c,169 :: 		delay_us(10); // Send LOW-to-HIGH Pulse of 10us to Ultrasonic
 	MOVLW      6
 	MOVWF      R13+0
 L_main25:
 	DECFSZ     R13+0, 1
 	GOTO       L_main25
 	NOP
-;PFmicroSensor.c,161 :: 		Trig2= 0;
-	BCF        PORTA+0, 0
-;PFmicroSensor.c,162 :: 		}
+;PFmicroSensor.c,170 :: 		Trig2= 0;
+	BCF        PORTA+0, 1
+;PFmicroSensor.c,171 :: 		}
 L_main23:
-;PFmicroSensor.c,164 :: 		}
+;PFmicroSensor.c,173 :: 		}
 	GOTO       L_main18
-;PFmicroSensor.c,165 :: 		}
+;PFmicroSensor.c,174 :: 		}
 L_end_main:
 	GOTO       $+0
 ; end of _main

@@ -46,8 +46,6 @@ void Melody() {           // Plays the melody "Yellow house"
 void InitMain() {
   ANSEL  = 0x00;                          // Configure AN0 & AN1 pins as analog, the rest digital
   ANSELH = 0;
-  C1ON_bit = 0;                       // Disable comparators
-  C2ON_bit = 0;
 
   PORTA = 255;
   TRISA = 255;                        // configure PORTA pins as input
@@ -62,8 +60,6 @@ void InitMain() {
 Sound_Init(&PORTE, 0);
 Sound_Play(880, 500);             // Play sound at 880Hz for 1 second
 
-  PWM1_Init(900);                    // Initialize PWM1 module at 1KHz
-  
   UART1_Init(19200);
      /*
   // Turn on Timer 1 with 4x prescale as counter
@@ -83,9 +79,6 @@ void main() {
 
   current_duty  = 128;                 // initial value for current_duty
 
-  PWM1_Start();                       // start PWM1
-  PWM1_Set_Duty(0);        // Set current duty for PWM1
-  
   while (1) {                         // endless loop
 
             if (UART1_Data_Ready()) { // If data has been received

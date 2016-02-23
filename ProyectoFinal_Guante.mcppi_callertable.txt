@@ -7,11 +7,7 @@ main
 			Div_32x32_U
 			Div_16x16_U
 			Delay_Cyc
-		PWM1_Init
 		UART1_Init
-	PWM1_Start
-	PWM1_Set_Duty
-		Mul_16x16_U
 	UART1_Data_Ready
 	UART1_Read
 	Melody
@@ -29,3 +25,5 @@ main
 				Div_32x32_U
 				Div_16x16_U
 				Delay_Cyc
+	PWM1_Set_Duty
+		Mul_16x16_U

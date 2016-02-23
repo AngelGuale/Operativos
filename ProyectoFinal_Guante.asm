@@ -186,35 +186,31 @@ _InitMain:
 	CLRF       ANSEL+0
 ;ProyectoFinal_Guante.c,48 :: 		ANSELH = 0;
 	CLRF       ANSELH+0
-;ProyectoFinal_Guante.c,49 :: 		C1ON_bit = 0;                       // Disable comparators
-	BCF        C1ON_bit+0, BitPos(C1ON_bit+0)
-;ProyectoFinal_Guante.c,50 :: 		C2ON_bit = 0;
-	BCF        C2ON_bit+0, BitPos(C2ON_bit+0)
-;ProyectoFinal_Guante.c,52 :: 		PORTA = 255;
+;ProyectoFinal_Guante.c,50 :: 		PORTA = 255;
 	MOVLW      255
 	MOVWF      PORTA+0
-;ProyectoFinal_Guante.c,53 :: 		TRISA = 255;                        // configure PORTA pins as input
+;ProyectoFinal_Guante.c,51 :: 		TRISA = 255;                        // configure PORTA pins as input
 	MOVLW      255
 	MOVWF      TRISA+0
-;ProyectoFinal_Guante.c,54 :: 		PORTB = 0;                          // set PORTC to 0
+;ProyectoFinal_Guante.c,52 :: 		PORTB = 0;                          // set PORTC to 0
 	CLRF       PORTB+0
-;ProyectoFinal_Guante.c,55 :: 		TRISB = 0;
+;ProyectoFinal_Guante.c,53 :: 		TRISB = 0;
 	CLRF       TRISB+0
-;ProyectoFinal_Guante.c,56 :: 		TRISC = 0xF0;                          // designate PORTC pins as output
+;ProyectoFinal_Guante.c,54 :: 		TRISC = 0xF0;                          // designate PORTC pins as output
 	MOVLW      240
 	MOVWF      TRISC+0
-;ProyectoFinal_Guante.c,58 :: 		PORTC = 0;                          // set PORTC to 0
+;ProyectoFinal_Guante.c,56 :: 		PORTC = 0;                          // set PORTC to 0
 	CLRF       PORTC+0
-;ProyectoFinal_Guante.c,59 :: 		TRISD=0;
+;ProyectoFinal_Guante.c,57 :: 		TRISD=0;
 	CLRF       TRISD+0
-;ProyectoFinal_Guante.c,60 :: 		PORTD=0;
+;ProyectoFinal_Guante.c,58 :: 		PORTD=0;
 	CLRF       PORTD+0
-;ProyectoFinal_Guante.c,62 :: 		Sound_Init(&PORTE, 0);
+;ProyectoFinal_Guante.c,60 :: 		Sound_Init(&PORTE, 0);
 	MOVLW      PORTE+0
 	MOVWF      FARG_Sound_Init_snd_port+0
 	CLRF       FARG_Sound_Init_snd_pin+0
 	CALL       _Sound_Init+0
-;ProyectoFinal_Guante.c,63 :: 		Sound_Play(880, 500);             // Play sound at 880Hz for 1 second
+;ProyectoFinal_Guante.c,61 :: 		Sound_Play(880, 500);             // Play sound at 880Hz for 1 second
 	MOVLW      112
 	MOVWF      FARG_Sound_Play_freq_in_hz+0
 	MOVLW      3
@@ -224,60 +220,49 @@ _InitMain:
 	MOVLW      1
 	MOVWF      FARG_Sound_Play_duration_ms+1
 	CALL       _Sound_Play+0
-;ProyectoFinal_Guante.c,65 :: 		PWM1_Init(900);                    // Initialize PWM1 module at 1KHz
-	BSF        T2CON+0, 0
-	BSF        T2CON+0, 1
-	MOVLW      138
-	MOVWF      PR2+0
-	CALL       _PWM1_Init+0
-;ProyectoFinal_Guante.c,67 :: 		UART1_Init(19200);
+;ProyectoFinal_Guante.c,63 :: 		UART1_Init(19200);
 	MOVLW      25
 	MOVWF      SPBRG+0
 	BSF        TXSTA+0, 2
 	CALL       _UART1_Init+0
-;ProyectoFinal_Guante.c,79 :: 		}
+;ProyectoFinal_Guante.c,75 :: 		}
 L_end_InitMain:
 	RETURN
 ; end of _InitMain
 
 _main:
 
-;ProyectoFinal_Guante.c,81 :: 		void main() {
-;ProyectoFinal_Guante.c,82 :: 		InitMain();
+;ProyectoFinal_Guante.c,77 :: 		void main() {
+;ProyectoFinal_Guante.c,78 :: 		InitMain();
 	CALL       _InitMain+0
-;ProyectoFinal_Guante.c,84 :: 		current_duty  = 128;                 // initial value for current_duty
+;ProyectoFinal_Guante.c,80 :: 		current_duty  = 128;                 // initial value for current_duty
 	MOVLW      128
 	MOVWF      _current_duty+0
-;ProyectoFinal_Guante.c,86 :: 		PWM1_Start();                       // start PWM1
-	CALL       _PWM1_Start+0
-;ProyectoFinal_Guante.c,87 :: 		PWM1_Set_Duty(0);        // Set current duty for PWM1
-	CLRF       FARG_PWM1_Set_Duty_new_duty+0
-	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,89 :: 		while (1) {                         // endless loop
+;ProyectoFinal_Guante.c,82 :: 		while (1) {                         // endless loop
 L_main0:
-;ProyectoFinal_Guante.c,91 :: 		if (UART1_Data_Ready()) { // If data has been received
+;ProyectoFinal_Guante.c,84 :: 		if (UART1_Data_Ready()) { // If data has been received
 	CALL       _UART1_Data_Ready+0
 	MOVF       R0+0, 0
 	BTFSC      STATUS+0, 2
 	GOTO       L_main2
-;ProyectoFinal_Guante.c,92 :: 		i = UART1_Read();     // read it
+;ProyectoFinal_Guante.c,85 :: 		i = UART1_Read();     // read it
 	CALL       _UART1_Read+0
 	MOVF       R0+0, 0
 	MOVWF      _i+0
-;ProyectoFinal_Guante.c,94 :: 		PORTD=i;
+;ProyectoFinal_Guante.c,87 :: 		PORTD=i;
 	MOVF       R0+0, 0
 	MOVWF      PORTD+0
-;ProyectoFinal_Guante.c,96 :: 		if(i<19){
+;ProyectoFinal_Guante.c,89 :: 		if(i<19){
 	MOVLW      19
 	SUBWF      R0+0, 0
 	BTFSC      STATUS+0, 0
 	GOTO       L_main3
-;ProyectoFinal_Guante.c,100 :: 		PORTC.B2=1;
+;ProyectoFinal_Guante.c,93 :: 		PORTC.B2=1;
 	BSF        PORTC+0, 2
-;ProyectoFinal_Guante.c,102 :: 		}
+;ProyectoFinal_Guante.c,95 :: 		}
 	GOTO       L_main4
 L_main3:
-;ProyectoFinal_Guante.c,103 :: 		else if(i<30 && i>19){
+;ProyectoFinal_Guante.c,96 :: 		else if(i<30 && i>19){
 	MOVLW      30
 	SUBWF      _i+0, 0
 	BTFSC      STATUS+0, 0
@@ -287,33 +272,33 @@ L_main3:
 	BTFSC      STATUS+0, 0
 	GOTO       L_main7
 L__main10:
-;ProyectoFinal_Guante.c,105 :: 		PORTC.B2=1;
+;ProyectoFinal_Guante.c,98 :: 		PORTC.B2=1;
 	BSF        PORTC+0, 2
-;ProyectoFinal_Guante.c,106 :: 		Melody();
+;ProyectoFinal_Guante.c,99 :: 		Melody();
 	CALL       _Melody+0
-;ProyectoFinal_Guante.c,110 :: 		}
+;ProyectoFinal_Guante.c,103 :: 		}
 	GOTO       L_main8
 L_main7:
-;ProyectoFinal_Guante.c,113 :: 		PORTC.B2=0;
+;ProyectoFinal_Guante.c,106 :: 		PORTC.B2=0;
 	BCF        PORTC+0, 2
-;ProyectoFinal_Guante.c,114 :: 		PORTE.B0=0;
+;ProyectoFinal_Guante.c,107 :: 		PORTE.B0=0;
 	BCF        PORTE+0, 0
-;ProyectoFinal_Guante.c,115 :: 		PWM1_Set_Duty(0);
+;ProyectoFinal_Guante.c,108 :: 		PWM1_Set_Duty(0);
 	CLRF       FARG_PWM1_Set_Duty_new_duty+0
 	CALL       _PWM1_Set_Duty+0
-;ProyectoFinal_Guante.c,116 :: 		}
+;ProyectoFinal_Guante.c,109 :: 		}
 L_main8:
 L_main4:
-;ProyectoFinal_Guante.c,119 :: 		}   else {
+;ProyectoFinal_Guante.c,112 :: 		}   else {
 	GOTO       L_main9
 L_main2:
-;ProyectoFinal_Guante.c,120 :: 		PORTE.B0=0;
+;ProyectoFinal_Guante.c,113 :: 		PORTE.B0=0;
 	BCF        PORTE+0, 0
-;ProyectoFinal_Guante.c,122 :: 		}
+;ProyectoFinal_Guante.c,115 :: 		}
 L_main9:
-;ProyectoFinal_Guante.c,126 :: 		}
+;ProyectoFinal_Guante.c,119 :: 		}
 	GOTO       L_main0
-;ProyectoFinal_Guante.c,128 :: 		}
+;ProyectoFinal_Guante.c,121 :: 		}
 L_end_main:
 	GOTO       $+0
 ; end of _main

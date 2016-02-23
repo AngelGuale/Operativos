@@ -47,8 +47,6 @@ void Melody() {
 void InitMain() {
  ANSEL = 0x00;
  ANSELH = 0;
- C1ON_bit = 0;
- C2ON_bit = 0;
 
  PORTA = 255;
  TRISA = 255;
@@ -63,19 +61,14 @@ void InitMain() {
 Sound_Init(&PORTE, 0);
 Sound_Play(880, 500);
 
- PWM1_Init(900);
-
  UART1_Init(19200);
-#line 79 "C:/Users/Usuario/Desktop/ProyectoFinal_Guante/ProyectoFinal_Guante.c"
+#line 75 "C:/Users/Usuario/Desktop/ProyectoFinal_Guante/ProyectoFinal_Guante.c"
 }
 
 void main() {
  InitMain();
 
  current_duty = 128;
-
- PWM1_Start();
- PWM1_Set_Duty(0);
 
  while (1) {
 
